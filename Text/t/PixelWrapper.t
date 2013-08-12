@@ -24,7 +24,7 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More tests => 9;
 
 BEGIN
 {
@@ -77,6 +77,5 @@ for my $s ( @strings )
     is( $pl, $xl );
 }
 
-done_testing();
 1;
 
