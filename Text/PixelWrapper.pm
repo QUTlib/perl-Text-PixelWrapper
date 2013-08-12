@@ -271,7 +271,7 @@ sub pixlength
 {
     my( $string ) = @_;
     my $len = 0;
-    for my $ord ( unpack("W*",$string) ) {
+    for my $ord ( unpack("C*",$string) ) {
 	$len += ($widths{$ord} || 0);
     }
     return $len;
@@ -293,7 +293,7 @@ sub wrap
     $width = 962 unless $width; # 814=74em; 962=74'W'
     $br = "\n" unless $br;
 
-    my @ords = unpack("W*", $string);
+    my @ords = unpack("C*", $string);
 
     my $wrapped = '';
     my $length = 0;
