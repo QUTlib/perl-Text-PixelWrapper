@@ -32,16 +32,20 @@ Get the length of a string in pixels.
 
 This does not account for line-breaks or tab characters.
 
-### Text::PixelWrapper::wrap( $string, $width=962, $br="\n" )
+### Text::PixelWrapper::wrap( $string, $width=936, $br="\n" )
 
 Wrap a string at certain pixel-widths.
+
+Some arbitrary widths:
+* 936 = 72 'W's (widest character)
+* 960 = 72 em
 
 **Parameters:**
 
 | Param.  | Description                                            |
 | ------- | ------------------------------------------------------ |
 | $string | the string to chop                                     |
-| $width  | how wide to chop it (default = 962, which is 74 'W's)  |
+| $width  | how wide to chop it (default = 936, which is 72 'W's)  |
 | $br     | what to put between the wrapped lines (default = "\n") |
 
 **Returns:** a string which is line-wrapped

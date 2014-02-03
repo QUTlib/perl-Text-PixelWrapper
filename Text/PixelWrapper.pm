@@ -280,8 +280,12 @@ sub pixlength
 #
 # Wrap a string at certain pixel-widths.
 #
+# Some arbitrary widths:
+# o 936 = 72 'W's (widest character)
+# o 960 = 72 em
+#
 # @param $string the string to chop
-# @param $width how wide to chop it (default = 962, which is 74 'W's)
+# @param $width how wide to chop it (default = 936, which is 72 'W's)
 # @param $br what to put between the wrapped lines (default = "\n")
 # @return a string which is line-wrapped
 #
@@ -290,7 +294,7 @@ sub wrap
     my( $string, $width, $br ) = @_;
     $string =~ s/\s+/ /g;
     $string =~ s/^\s|\s$//g;
-    $width = 962 unless $width; # 814=74em; 962=74'W'
+    $width = 936 unless $width;
     $br = "\n" unless $br;
 
     my @ords = unpack("C*", $string);
