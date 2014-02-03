@@ -36,10 +36,16 @@ This does not account for line-breaks or tab characters.
 
 Wrap a string at certain pixel-widths.
 
-* @param $string the string to chop
-* @param $width how wide to chop it (default = 962, which is 74 'W's)
-* @param $br what to put between the wrapped lines (default = "\n")
-* @return a string which is line-wrapped
+**Parameters:**
++---------+-------------------------------------------------------+
+| $string | the string to chop                                    |
++---------+-------------------------------------------------------+
+| $width  | how wide to chop it (default = 962, which is 74 'W's  |
++---------+-------------------------------------------------------+
+| $br     | what to put between the wrapped liens (default = "\n" |
++---------+-------------------------------------------------------+
+
+**Returns:** a string which is line-wrapped
 
 - - - - -
 
