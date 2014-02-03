@@ -56,5 +56,5 @@ Some arbitrary widths:
 
 * does not support string encodings (all measurements and wrapping are
   based on single-byte Windows-1252 encoding)
-* does not support continuation characters (newline, horizontal tab)
+* does not support spacing/feed control characters (CR, LF, Tab, ..)
 
