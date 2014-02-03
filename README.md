@@ -38,6 +38,7 @@ Wrap a string at certain pixel-widths.
 
 **Parameters:**
 
+| Param.  | Description                                           |
 | ------- | ----------------------------------------------------- |
 | $string | the string to chop                                    |
 | $width  | how wide to chop it (default = 962, which is 74 'W's  |
