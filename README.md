@@ -41,7 +41,7 @@ Wrap a string at certain pixel-widths.
 | Param.  | Description                                           |
 | ------- | ----------------------------------------------------- |
 | $string | the string to chop                                    |
-| $width  | how wide to chop it (default = 962, which is 74 'W's  |
+| $width  | how wide to chop it (default = 962, which is 74 'W's) |
 | $br     | what to put between the wrapped liens (default = "\n" |
 
 **Returns:** a string which is line-wrapped
