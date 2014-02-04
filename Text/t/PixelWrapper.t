@@ -42,7 +42,7 @@ my @strings = (
 	"A short string.",
 	"A short string.",
 	82,
-	(82, Text::PixelWrapper::fontsize())
+	(82, Text::PixelWrapper::lineheight())
     ],
     [
 	"A long string that is a bit longer than the short string.",
@@ -50,7 +50,7 @@ my @strings = (
 	"A long string that is a bit\nlonger than the short string.",
 	"A long string that is a bit\nlonger than the short string.",
 	305,
-	(159, Text::PixelWrapper::fontsize()*2)
+	(159, Text::PixelWrapper::lineheight()*2)
     ],
     [
 	"A very long string that is even longer than the long string, \n"
@@ -79,7 +79,7 @@ my @strings = (
 	    ."characters and whatnot.\n",
 
 	852,
-	(170, Text::PixelWrapper::fontsize()*6)
+	(170, Text::PixelWrapper::lineheight()*6)
     ],
     [
 	"A-string-that-is-likely-to-wrap,-but-doesn't-have-any-useful-spaces.",
@@ -87,7 +87,7 @@ my @strings = (
 	"A-string-that-is-likely-to-\nwrap,-but-doesn't-have-any-\nuseful-spaces.",
 	"A-string-that-is-likely-to-\nwrap,-but-doesn't-have-any-\nuseful-spaces.",
 	379,
-	(157, Text::PixelWrapper::fontsize()*3)
+	(157, Text::PixelWrapper::lineheight()*3)
     ],
     [
 	"Astringthatislikelytowrapbutdoesn'thaveanyspacesatall.",
@@ -95,7 +95,7 @@ my @strings = (
 	"Astringthatislikelytowrapbutdo\nesn'thaveanyspacesatall.",
 	"Astringthatislikelytowrapbutdo\nesn'thaveanyspacesatall.",
 	317,
-	(173, Text::PixelWrapper::fontsize()*2)
+	(173, Text::PixelWrapper::lineheight()*2)
     ],
 );
 

@@ -78,5 +78,5 @@ Some arbitrary widths:
 ## Known Issues
 
 * does not support string encodings (all measurements and wrapping are
-  based on Unicode codepoints in the range 0x20-0xFF)
+  based on [Windows-1252](https://en.wikipedia.org/wiki/Windows-1252))
 
