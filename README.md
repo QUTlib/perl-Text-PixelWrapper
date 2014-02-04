@@ -53,7 +53,7 @@ This does not account for line-breaks.
 **Returns:** `($width, $height)`
 
 
-### Text::PixelWrapper::wrap( $string, $width=936, $br="\n" )
+### Text::PixelWrapper::wrap( $string, $width=936, %opts )
 
 Wrap a string at certain pixel-widths.
 
@@ -66,7 +66,7 @@ Some arbitrary widths:
 * `$string` the string to chop
 * `$width`  how wide to chop it (default = 936, which is 72 'W's)
 * `%opts`
-    * *br* => what to put between the wrapped lines (default = "\n")
+    * *br* => what to put between the wrapped lines (default = `"\n"`)
     * *html* => 1/0 whether to compress whitespace HTML-style
     * *preservenl* => 1/0 whether to keep newlines (in html mode only)
     * *tab*  => number of space characters that matches one tab-stop
