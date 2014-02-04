@@ -1,6 +1,6 @@
 # Text::PixelWrapper
 
-Line wrapped to form simple paragraphs, using an approximation
+Line wrapping to form simple paragraphs, using an approximation
 for proportional-width fonts.
 
 The standard measure is a typical 10pt (13.33px) sans-serif font.
@@ -59,7 +59,7 @@ This does not account for line-breaks.
 Wrap a string at certain pixel-widths.
 
 Some arbitrary widths:
-* 936 = 72 'W's (widest character)
+* 936 = 72 'W's (widest ASCII character)
 * 1008 = 72 per-milles (widest character)
 * 960 = 72 em
 

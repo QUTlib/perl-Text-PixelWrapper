@@ -4,7 +4,7 @@ package Text::PixelWrapper;
 #
 # Text::PixelWrapper
 #
-# Line wrapped to form simple paragraphs, using an approximation
+# Line wrapping to form simple paragraphs, using an approximation
 # for proportional-width fonts.
 #
 # The standard measure is a typical 10pt (13.33px) sans-serif font.
