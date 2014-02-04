@@ -105,7 +105,7 @@ sub pixlength
 #          html => 1/0 whether to compress whitespace HTML-style
 #          preservenl => 1/0 whether to keep newlines (in html mode only)
 #          tab  => number of space characters that matches one tab-stop
-#          line => height of a line, in ems
+#          line => height of a line, in ems (default = 1.2)
 # @return ($width, $height)
 #
 sub dimensions
