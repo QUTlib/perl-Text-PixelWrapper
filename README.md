@@ -60,6 +60,7 @@ Wrap a string at certain pixel-widths.
 
 Some arbitrary widths:
 * 936 = 72 'W's (widest character)
+* 1008 = 72 per-milles (widest character)
 * 960 = 72 em
 
 **Parameters:**
