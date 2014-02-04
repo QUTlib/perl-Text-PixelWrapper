@@ -26,11 +26,32 @@ along with this program.  If not, see
 
 - - - - -
 
-### Text::PixelWrapper::pixlength( $string )
+### Text::PixelWrapper::pixlength( $string, %opts )
 
 Get the length of a string in pixels.
 
-This does not account for line-breaks or tab characters.
+This does not account for line-breaks.
+
+**Parameters:**
+
+* **$string** the string to measure
+* **%opts**
+    * *tab* => number of space characters that matches one tab-stop
+
+**Returns:** the length of `$string`, in pixels
+
+### Text::PixelWrapper::dimensions( $string, %opts )
+
+**Parameters:**
+
+* `$string` the string to measure
+* `%opts`
+    * *html* => 1/0 whether to compress whitespace HTML-style
+    * *preservenl* => 1/0 whether to keep newlines (in html mode only)
+    * *tab*  => number of space characters that matches one tab-stop
+
+**Returns:** `($width, $height)`
+
 
 ### Text::PixelWrapper::wrap( $string, $width=936, $br="\n" )
 
@@ -42,11 +63,13 @@ Some arbitrary widths:
 
 **Parameters:**
 
-| Param.  | Description                                            |
-| ------- | ------------------------------------------------------ |
-| $string | the string to chop                                     |
-| $width  | how wide to chop it (default = 936, which is 72 'W's)  |
-| $br     | what to put between the wrapped lines (default = "\n") |
+* `$string` the string to chop
+* `$width`  how wide to chop it (default = 936, which is 72 'W's)
+* `%opts`
+    * *br* => what to put between the wrapped lines (default = "\n")
+    * *html* => 1/0 whether to compress whitespace HTML-style
+    * *preservenl* => 1/0 whether to keep newlines (in html mode only)
+    * *tab*  => number of space characters that matches one tab-stop
 
 **Returns:** a string which is line-wrapped
 
@@ -55,6 +78,5 @@ Some arbitrary widths:
 ## Known Issues
 
 * does not support string encodings (all measurements and wrapping are
-  based on single-byte Windows-1252 encoding)
-* does not support spacing/feed control characters (CR, LF, Tab, ..)
+  based on Unicode codepoints in the range 0x20-0xFF)
 

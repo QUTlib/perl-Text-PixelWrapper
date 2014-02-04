@@ -35,6 +35,7 @@ package Text::PixelWrapper;
 use strict;
 use warnings;
 
+my $fontsize = 10*(96/72);
 my %widths = (
     32 => 4,
     33 => 3,
@@ -261,41 +262,131 @@ my %widths = (
     254 => 7,
     255 => 7,
 );
+my $tabstop = $widths{32} * 8;
+
+sub fontsize
+{
+    return $fontsize;
+}
 
 #
 # Get the length of a string in pixels.
 #
-# This does not account for line-breaks or tab characters.
+# This does not account for line-breaks.
+#
+# @param $string the string to measure
+# @param %opts
+#          tab  => number of space characters that matches one tab-stop
+# @return the length of $string, in pixels
 #
 sub pixlength
 {
-    my( $string ) = @_;
+    my( $string, %opts ) = @_;
+    my $ts = ($opts{tabs} ? $opts{tabs} * $widths{32} : $tabstop);
     my $len = 0;
     for my $ord ( unpack("C*",$string) ) {
-	$len += ($widths{$ord} || 0);
+	if ($ord == 9) {
+	    $len = $len + $ts - ($len % $ts);
+	} else {
+	    $len += ($widths{$ord} || 0);
+	}
     }
     return $len;
 }
 
 #
+# Get the dimensions of a string, in pixels.
+#
+# @param $string the string to measure
+# @param %opts
+#          html => 1/0 whether to compress whitespace HTML-style
+#          preservenl => 1/0 whether to keep newlines (in html mode only)
+#          tab  => number of space characters that matches one tab-stop
+# @return ($width, $height)
+#
+sub dimensions
+{
+    my( $string, %opts ) = @_;
+    my $width = 0;
+    my $height = $fontsize;
+
+    # How wide is a tab?
+    my $ts = ($opts{tabs} ? $opts{tabs} * $widths{32} : $tabstop);
+
+    # sanitise linebreaks
+    $string =~ s/\r\n?/\n/g;
+
+    if ($opts{html}) {
+	# collapse whitespace, HTML-style
+	# - contiguous spaces => 0x20
+	# - leading/trailing spaces trimmed
+	if( $opts{preservenl} ) {
+	    $string =~ s/[ \t]+/ /g;
+        } else {
+	    $string =~ s/\s+/ /g;
+        }
+	$string =~ s/^ +| +$//mg;
+    }
+
+    my @ords = unpack("C*", $string);
+
+    my $linewidth = 0;
+    for my $ord ( @ords ) {
+	if( $ord == 9 ) {
+	    $linewidth = $linewidth + $ts - ($linewidth % $ts);
+	} elsif( $ord == 10 && (!$opts{html} || $opts{preservenl}) ) {
+	    $height += $fontsize;
+	    $width = $linewidth if( $linewidth > $width );
+	    $linewidth = 0;
+	} else {
+	    $linewidth += ($widths{$ord} || 0);
+	}
+    }
+    $width = $linewidth if ($linewidth > $width);
+    return ($width, $height);
+}
+
+#
 # Wrap a string at certain pixel-widths.
 #
+# This method uses typical HTML/XML whitespace rules: all whitespace
+# is collapsed to a single space
+#
 # Some arbitrary widths:
-# o 936 = 72 'W's (widest character)
-# o 960 = 72 em
+# * 936 = 72 'W's (widest character)
+# * 960 = 72 em
 #
 # @param $string the string to chop
 # @param $width how wide to chop it (default = 936, which is 72 'W's)
-# @param $br what to put between the wrapped lines (default = "\n")
+# @param %opts
+#          br => what to put between the wrapped lines (default = "\n")
+#          html => 1/0 whether to compress whitespace HTML-style
+#          preservenl => 1/0 whether to keep newlines (in html mode only)
+#          tab  => number of space characters that matches one tab-stop
 # @return a string which is line-wrapped
 #
 sub wrap
 {
-    my( $string, $width, $br ) = @_;
-    $string =~ s/\s+/ /g;
-    $string =~ s/^\s|\s$//g;
+    my( $string, $width, %opts ) = @_;
     $width = 936 unless $width;
-    $br = "\n" unless $br;
+
+    my $br = ($opts{br} || "\n");
+    my $ts = ($opts{tabs} ? $opts{tabs} * $widths{32} : $tabstop);
+
+    # sanitise linebreaks
+    $string =~ s/\r\n?/\n/g;
+
+    if ($opts{html}) {
+	# collapse whitespace, HTML-style
+	# - contiguous spaces => 0x20
+	# - leading/trailing spaces trimmed
+	if( $opts{preservenl} ) {
+	    $string =~ s/[ \t]+/ /g;
+        } else {
+	    $string =~ s/\s+/ /g;
+        }
+	$string =~ s/^ +| +$//mg;
+    }
 
     my @ords = unpack("C*", $string);
 
@@ -303,9 +394,18 @@ sub wrap
     my $length = 0;
     my $accum = '';
     for my $ord ( @ords ) {
+	if( $ord == 10 && (!$opts{html} || $opts{preservenl}) ) {
+	    $wrapped .= ($wrapped ? $br : '') . $accum;
+	    $accum = '';
+	    $length = 0;
+	    next;
+	}
 	my $char = chr($ord);
-	next if(($length == 0) && ($char =~ /\s/));
 	my $cl = ($widths{$ord} || 0);
+	if( $ord == 9 ) {
+	    # special handling for tab characters
+	    $cl = $ts - ($length % $ts);
+	}
 	if( $length + $cl > $width ) {
 	    # chop it off
 	    if( $char =~ /\s/ ) {
@@ -328,9 +428,15 @@ sub wrap
 	    } else {
 		# The last line was a single word.  Just chop it
 		# off somewhat arbitrarily.
-		$wrapped .= ($wrapped ? $br : '') . $accum;
-		$accum = '';
-		$length = 0;
+		if ($opts{hyphen} && $accum =~ /(.*[A-Z])([A-Z])$/i) {
+		    $wrapped .= ($wrapped ? $br : '') . $1 . '-';
+		    $accum = $2;
+		    $length = pixlength($accum);
+		} else {
+		    $wrapped .= ($wrapped ? $br : '') . $accum;
+		    $accum = '';
+		    $length = 0;
+		}
 	    }
 	}
 	$accum .= $char;

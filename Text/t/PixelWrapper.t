@@ -24,7 +24,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 9;
+use Test::More tests => 31;
 
 BEGIN
 {
@@ -39,16 +39,29 @@ my @strings = (
     [
 	"A short string.",
 	"A short string.",
-	82
+	"A short string.",
+	"A short string.",
+	82,
+	(82, Text::PixelWrapper::fontsize())
     ],
     [
 	"A long string that is a bit longer than the short string.",
 	"A long string that is a bit\nlonger than the short string.",
-	305
+	"A long string that is a bit\nlonger than the short string.",
+	"A long string that is a bit\nlonger than the short string.",
+	305,
+	(159, Text::PixelWrapper::fontsize()*2)
     ],
     [
 	"A very long string that is even longer than the long string, \n"
 	    ." which even contains line-wrapping  and random \t  spacing\n"
+	    ."   characters and whatnot.  \n",
+
+	"A very long string that is even\n"
+	    ."longer than the long string, \n"
+	    ." which even contains\n"
+	    ."line-wrapping  and random\n"
+	    ."\t  spacing\n"
 	    ."   characters and whatnot.  \n",
 
 	"A very long string that is even\n"
@@ -58,23 +71,55 @@ my @strings = (
 	    ."spacing characters and\n"
 	    ."whatnot.",
 
-	823
+	"A very long string that is even\n"
+	    ."longer than the long string,\n"
+	    ."which even contains\n"
+	    ."line-wrapping and random\n"
+	    ."spacing\n"
+	    ."characters and whatnot.\n",
+
+	852,
+	(170, Text::PixelWrapper::fontsize()*6)
     ],
     [
 	"A-string-that-is-likely-to-wrap,-but-doesn't-have-any-useful-spaces.",
 	"A-string-that-is-likely-to-\nwrap,-but-doesn't-have-any-\nuseful-spaces.",
-	379
+	"A-string-that-is-likely-to-\nwrap,-but-doesn't-have-any-\nuseful-spaces.",
+	"A-string-that-is-likely-to-\nwrap,-but-doesn't-have-any-\nuseful-spaces.",
+	379,
+	(157, Text::PixelWrapper::fontsize()*3)
+    ],
+    [
+	"Astringthatislikelytowrapbutdoesn'thaveanyspacesatall.",
+	"Astringthatislikelytowrapbutdo\nesn'thaveanyspacesatall.",
+	"Astringthatislikelytowrapbutdo\nesn'thaveanyspacesatall.",
+	"Astringthatislikelytowrapbutdo\nesn'thaveanyspacesatall.",
+	317,
+	(173, Text::PixelWrapper::fontsize()*2)
     ],
 );
 
+my $n = 0;
 for my $s ( @strings )
 {
-    my( $in, $ex, $xl ) = @{$s};
+    $n += 1;
+
+    my( $in, $ex, $eh, $en, $xl, @xd ) = @{$s};
     my $out = Text::PixelWrapper::wrap( $in, $width );
-    is( $out, $ex );
+    is( $out, $ex, "wrap [$n]" );
+
+    my $html = Text::PixelWrapper::wrap( $in, $width, html=>1 );
+    is( $html, $eh, "wrap(html) [$n]" );
+
+    my $htmlnl = Text::PixelWrapper::wrap( $in, $width, html=>1, preservenl=>1 );
+    is( $htmlnl, $en, "wrap(htmlnl) [$n]" );
 
     my $pl = Text::PixelWrapper::pixlength( $in );
-    is( $pl, $xl );
+    is( $pl, $xl, "pixlength [$n]" );
+
+    my( $w,$h ) = Text::PixelWrapper::dimensions( $eh );
+    is( $w, $xd[0], "dimensions{0} [$n]" );
+    is( $h, $xd[1], "dimensions{1} [$n]" );
 }
 
 1;
