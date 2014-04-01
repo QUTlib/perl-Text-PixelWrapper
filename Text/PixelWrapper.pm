@@ -25,8 +25,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    my $VERSION = '1.0';
-    *Text::PixelWrapper::VERSION = *VERSION;
+    our $VERSION = '1.0';
 }
 
 my $fontsize = 10*(96/72);
