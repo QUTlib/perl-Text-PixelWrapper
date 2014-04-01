@@ -5,9 +5,11 @@ for proportional-width fonts.
 
 The standard measure is a typical 10pt (13.33px) sans-serif font.
 
+[![Build Status](https://secure.travis-ci.org/QUTlib/perl-Text-PixelWrapper.png)](http://travis-ci.org/QUTlib/perl-Text-PixelWrapper)
+
 - - - - -
 
-Copyright 2013 Queensland University of Technology.
+Copyright 2013,2014 Queensland University of Technology.
 All Rights Reserved.
 
 perl-Text-PixelWrapper is free software: you can
@@ -26,7 +28,7 @@ along with this program.  If not, see
 
 - - - - -
 
-### Text::PixelWrapper::pixlength( $string, %opts )
+### $length = Text::PixelWrapper::pixlength( $string, %opts )
 
 Get the length of a string in pixels.
 
@@ -40,7 +42,7 @@ This does not account for line-breaks.
 
 **Returns:** the length of `$string`, in pixels
 
-### Text::PixelWrapper::dimensions( $string, %opts )
+### ($width, $height) = Text::PixelWrapper::dimensions( $string, %opts )
 
 **Parameters:**
 
@@ -54,7 +56,7 @@ This does not account for line-breaks.
 **Returns:** `($width, $height)`
 
 
-### Text::PixelWrapper::wrap( $string, $width=936, %opts )
+### $wrapped = Text::PixelWrapper::wrap( $string, $width=936, %opts )
 
 Wrap a string at certain pixel-widths.
 
