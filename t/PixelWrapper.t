@@ -1,7 +1,7 @@
 ####################################################################
 #
-# Copyright 2013 Queensland University of Technology. All Rights
-# Reserved.
+# Copyright 2013,2014 Queensland University of Technology.
+# All Rights Reserved.
 #
 # This file is part of perl-Text-PixelWrapper.
 #
