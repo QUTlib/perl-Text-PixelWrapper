@@ -10,7 +10,6 @@ perl:
 matrix:
   allow_failures:
     - perl: "5.19"
-after_failure: cat /home/travis/.cpanm/work/*.*/build.log
 notifications:
   recipients:
     - libsys@qut.edu.au
