@@ -13,6 +13,7 @@ matrix:
 notifications:
   recipients:
     - libsys@qut.edu.au
+    - matthew.kerwin@qut.edu.au
   email:
     on_success: change
     on_failure: always
